@@ -69,6 +69,13 @@
 
 static inline int is_dos_path(const char *path)
 {
+#if defined(__amigaos4__) || defined(__morphos__)
+	/* Not strictly a "DOS PATH" but the point is the same */
+	if(!strstr(path,"://") && !strstr(path,":\\"))
+	{
+		return 1;
+	}
+#endif
 #if HAVE_DOS_PATHS
     if (path[0] && path[1] == ':')
         return 1;

@@ -60,8 +60,19 @@
 
 #include <assert.h>
 
+#if defined(__amigaos4__)
+static const char *__attribute__((used)) stackcookie = "$STACK: 1000000";
+static const char *__attribute__((used)) version_tag = "$VER: ffmpeg 4.2.1 (12.01.2020) OS4 port by walkero";
+#elif defined(__morphos__)
+static const char *__attribute__((used)) version_tag = "$VER: ffmpeg 4.2.1 (12.01.2020) MorphOS port by walkero";
+#endif
+
 const char program_name[] = "ffplay";
 const int program_birth_year = 2003;
+
+#if defined(__amigaos4__) || defined(__morphos__)
+VideoState *amigais;
+#endif
 
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 25
@@ -3666,7 +3677,9 @@ void show_help_default(const char *opt, const char *arg)
 int main(int argc, char **argv)
 {
     int flags;
+    #if !defined(__amigaos4__) && !defined(__morphos__)
     VideoState *is;
+    #endif
 
     init_dynload();
 
@@ -3753,6 +3766,15 @@ int main(int argc, char **argv)
         }
     }
 
+    #if defined(__amigaos4__) || defined(__morphos__)
+    amigais = stream_open(input_filename, file_iformat);
+    if (!amigais) {
+        av_log(NULL, AV_LOG_FATAL, "Failed to initialize VideoState!\n");
+        do_exit(NULL);
+    }
+
+    event_loop(amigais);
+    #else
     is = stream_open(input_filename, file_iformat);
     if (!is) {
         av_log(NULL, AV_LOG_FATAL, "Failed to initialize VideoState!\n");
@@ -3760,7 +3782,7 @@ int main(int argc, char **argv)
     }
 
     event_loop(is);
-
+    #endif
     /* never returns */
 
     return 0;

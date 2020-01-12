@@ -2031,9 +2031,7 @@ FILE *get_preset_file(char *filename, size_t filename_size,
 {
     FILE *f = NULL;
     int i;
-    const char *base[3] = { getenv("FFMPEG_DATADIR"),
-                            getenv("HOME"),
-                            FFMPEG_DATADIR, };
+    const char *base[1] = { "PROGDIR:ffpresets", };
 
     if (is_path) {
         av_strlcpy(filename, preset_name, filename_size);
@@ -2056,7 +2054,7 @@ FILE *get_preset_file(char *filename, size_t filename_size,
             }
         }
 #endif
-        for (i = 0; i < 3 && !f; i++) {
+        for (i = 0; i < 1 && !f; i++) {
             if (!base[i])
                 continue;
             snprintf(filename, filename_size, "%s%s/%s.ffpreset", base[i],

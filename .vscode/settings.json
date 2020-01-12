@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "cpu.h": "c",
+        "codec2utils.h": "c",
+        "fenv.h": "c"
+    },
+    "vsnotes.defaultNotePath": "/work/FFmpeg/.vscode/vsnotes"
+}

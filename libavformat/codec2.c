@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include <memory.h>
+// #include <memory.h>
 #include "libavcodec/codec2utils.h"
 #include "libavutil/intreadwrite.h"
 #include "avio_internal.h"

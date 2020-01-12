@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "config.h"
+#include "config2.h"
 
 #define GLUE(a, b) a ## b
 #define JOIN(a, b) GLUE(a, b)

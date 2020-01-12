@@ -972,11 +972,23 @@ static int ftp_parse_entry_mlsd(char *mlsd, AVIODirEntry *next)
         } else if (!av_strcasecmp(fact, "modify")) {
             next->modification_timestamp = ftp_parse_date(value);
         } else if (!av_strcasecmp(fact, "UNIX.mode")) {
+            #if defined(__amigaos4__) || defined(__morphos__)
+            next->filemode = strtoul(value, NULL, 8);
+            #else
             next->filemode = strtoumax(value, NULL, 8);
+            #endif
         } else if (!av_strcasecmp(fact, "UNIX.uid") || !av_strcasecmp(fact, "UNIX.owner"))
+            #if defined(__amigaos4__) || defined(__morphos__)
+            next->user_id = strtoul(value, NULL, 10);
+            #else
             next->user_id = strtoumax(value, NULL, 10);
+            #endif
         else if (!av_strcasecmp(fact, "UNIX.gid") || !av_strcasecmp(fact, "UNIX.group"))
+            #if defined(__amigaos4__) || defined(__morphos__)
+            next->group_id = strtoul(value, NULL, 10);
+            #else
             next->group_id = strtoumax(value, NULL, 10);
+            #endif
         else if (!av_strcasecmp(fact, "size") || !av_strcasecmp(fact, "sizd"))
             next->size = strtoll(value, NULL, 10);
     }

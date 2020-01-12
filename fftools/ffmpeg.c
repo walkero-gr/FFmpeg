@@ -106,6 +106,13 @@
 
 #include "libavutil/avassert.h"
 
+#if defined(__amigaos4__)
+static const char *__attribute__((used)) stackcookie = "$STACK: 1000000";
+static const char *__attribute__((used)) version_tag = "$VER: ffmpeg 4.2.1 (12.01.2020) OS4 port by walkero";
+#elif defined(__morphos__)
+static const char *__attribute__((used)) version_tag = "$VER: ffmpeg 4.2.1 (12.01.2020) MorphOS port by walkero";
+#endif
+
 const char program_name[] = "ffmpeg";
 const int program_birth_year = 2000;
 

@@ -19,6 +19,18 @@
 // This header should only be used to simplify code where
 // threading is optional, not as a generic threading abstraction.
 
+#if defined(__amigaos4__) || defined(__morphos__)
+// Needed by PTHREAD_ONCE_INIT but no need for the whole exec/types.h
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#endif
+
 #ifndef AVUTIL_THREAD_H
 #define AVUTIL_THREAD_H
 

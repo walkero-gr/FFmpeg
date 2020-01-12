@@ -976,8 +976,8 @@ static int udp_read(URLContext *h, uint8_t *buf, int size)
                 /* FIXME: using the monotonic clock would be better,
                    but it does not exist on all supported platforms. */
                 int64_t t = av_gettime() + 100000;
-                struct timespec tv = { .tv_sec  =  t / 1000000,
-                                       .tv_nsec = (t % 1000000) * 1000 };
+                struct timespec { time_t tv_secs; int tv_nansecs; };
+                const struct timespec tv = { .tv_secs  =  t / 1000000, .tv_nansecs = (t % 1000000) * 1000 };
                 if (pthread_cond_timedwait(&s->cond, &s->mutex, &tv) < 0) {
                     pthread_mutex_unlock(&s->mutex);
                     return AVERROR(errno == ETIMEDOUT ? EAGAIN : errno);
